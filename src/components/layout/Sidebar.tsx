@@ -59,7 +59,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
             </div>
 
             <div>
-              <h1 className="text-xl font-bold tracking-tight">Precifica</h1>
+              <h1 className="text-[17px] font-bold tracking-tight">Precifica Operações</h1>
               <p className="text-[11px] font-semibold tracking-[0.2em] text-blue-400">
                 QA PLATFORM
               </p>
