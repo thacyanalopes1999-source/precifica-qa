@@ -24,7 +24,7 @@ const menus = [
   { nome: "Revisão manual", href: "/revisao", icon: ClipboardCheck },
   { nome: "Exclusões", href: "/exclusoes", icon: Trash2 },
   { nome: "Histórico", href: "/historico", icon: History },
-  { nome: "Configurações", href: "/configuracoes", icon: Settings },
+  { nome: "Informações do sistema", href: "/configuracoes", icon: Settings },
 ];
 
 interface SidebarProps {
@@ -121,7 +121,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           </div>
 
           <div className="border-t border-white/10 pt-4 text-center text-xs text-slate-500">
-            Precifica QA • Versão inicial
+            Precifica QA • Motor 10.1.0.1
           </div>
         </div>
       </aside>

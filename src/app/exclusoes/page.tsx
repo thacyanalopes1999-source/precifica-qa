@@ -1,2 +1,7 @@
-import Painel from "@/components/qa/Painel";
-export default function Page() { return <Painel tipo="exclusoes"/>; }
+import ExclusoesPainel from "@/components/exclusoes/ExclusoesPainel";
+
+export default function ExclusoesPage() {
+  return <ExclusoesPainel />;
+}
+
+export const instant = false;

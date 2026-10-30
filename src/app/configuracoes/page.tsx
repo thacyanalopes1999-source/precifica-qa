@@ -1,2 +1,7 @@
-import Painel from "@/components/qa/Painel";
-export default function Page() { return <Painel tipo="configuracoes"/>; }
+import ConfiguracoesSistema from "@/components/configuracoes/ConfiguracoesSistema";
+
+export default function ConfiguracoesPage() {
+  return <ConfiguracoesSistema />;
+}
+
+export const instant = false;
