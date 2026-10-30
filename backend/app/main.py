@@ -20,7 +20,7 @@ from rapidfuzz import fuzz
 app = FastAPI(title="Precifica QA", version="10.1.0.1")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "http://192.168.100.22:3000", "http://localhost:3001", "http://127.0.0.1:3001", "http://192.168.100.22:3001"],
+    allow_origins=["https://precifica-qa.vercel.app", "http://localhost:3000", "http://127.0.0.1:3000", "http://192.168.100.22:3000", "http://localhost:3001", "http://127.0.0.1:3001", "http://192.168.100.22:3001"],
     allow_methods=["GET", "POST"], allow_headers=["*"],
 )
 
