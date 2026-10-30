@@ -10,6 +10,7 @@ import {
   ClipboardCheck,
   Trash2,
   History,
+  Search,
   Settings,
   ShieldCheck,
   X,
@@ -19,6 +20,7 @@ import {
 const menus = [
   { nome: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { nome: "Importar arquivos", href: "/importar", icon: UploadCloud },
+    { nome: "Buscar URLs", href: "/buscar-urls", icon: Search },
     { nome: "Validar URLs", href: "/validar-urls", icon: UploadCloud },
   { nome: "Comparações", href: "/comparacoes", icon: GitCompareArrows },
   { nome: "Revisão manual", href: "/revisao", icon: ClipboardCheck },
