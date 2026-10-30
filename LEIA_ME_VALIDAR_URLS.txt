@@ -1,0 +1,50 @@
+PRECIFICA QA — MÓDULO "VALIDAR URLs"
+==================================
+Instalável sobre o Precifica QA v10.1.0.1, sem trocar as regras de comparação.
+
+O QUE A ATUALIZAÇÃO ADICIONA
+• Página no Next.js: /validar-urls
+• Endpoints no FastAPI: /url-validator/preview, /url-validator/jobs, etc.
+• Leitura .xlsx, .csv e .tsv; seleção da coluna de URL; prévia de 5 links
+• Processamento em lotes com progresso, status por URL e paginação/filtros
+• Download de Excel com abas BASE_COM_STATUS, STATUS_URLS, RESUMO
+• Status: OK, REDIRECIONADO, NAO_ENCONTRADA(404), REMOVIDA(410),
+  BLOQUEADO(403), ACESSO_RESTRITO(401), LIMITE_ACESSO(429),
+  ERRO_SERVIDOR(5xx), TIMEOUT, ERRO_SSL, ERRO_CONEXAO, URL_INVALIDA,
+  DESTINO_BLOQUEADO, entre outros
+
+INSTALAÇÃO — WINDOWS POWERSHELL
+1. Pare Python/Next.js (Ctrl+C) e faça um backup do projeto.
+2. Baixe o ZIP e copie-o para a pasta Downloads.
+3. Execute:
+
+   cd C:\Users\Lopes\precifica-qa
+   Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\precifica_qa_validar_urls.zip" -DestinationPath . -Force
+   powershell -ExecutionPolicy Bypass -File .\scripts\instalar_validacao_urls.ps1
+
+4. Reinicie Python:
+   .\backend\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port 8000
+5. Inicie/reinicie Next.js como já faz normalmente (npm run dev, -- -H 0.0.0.0 se usa LAN).
+6. Acesse http://192.168.100.22:3000/validar-urls
+
+O instalador tenta acrescentar o link na barra lateral automaticamente.
+Se o menu tiver uma implementação personalizada, adicione no componente
+Sidebar/nav o novo link { label: 'Validar URLs', href: '/validar-urls' },
+reutilizando algum ícone já importado (por ex. UploadCloud).
+A página funciona pelo endereço mesmo se o link não for encontrado pelo script.
+
+SEGURANÇA E LIMITES
+- Somente HTTP/HTTPS para IPs PUBLICOS. Bloqueio de localhost, rede local,
+  IPs privados/reservados e portas potencialmente sensíveis.
+- DNS checado e conexão fixada ao IP aprovado; todos os redirects são revalidados.
+- Timeout por requisição: 9 s; workers: 6; máximo de 2 jobs simultâneos.
+- Planilha até 50 MB; até 50.000 linhas por job (ajuste opcional via variáveis
+  URL_CHECK_MAX_FILE_MB, URL_CHECK_MAX_ROWS, URL_CHECK_WORKERS).
+- Jobs guardados em arquivos temporários por até 6 horas; ao reiniciar o Python,
+  os jobs não ficam recuperáveis. Exporte o XLSX concluído.
+- Endpoint sem login próprio; use somente na rede privada com acesso restrito.
+  NÃO exponha a porta 8000 diretamente na internet.
+- 403/429 não comprovam site fora do ar: podem ser medidas anti-robô.
+- O processo verifica apenas respostas HTTP, sem executar JavaScript na página.
+- Arquivos XLSX de entrada muito grandes/descompactados são bloqueados.
+- Não modifica tabelas nem conteúdos no Supabase.

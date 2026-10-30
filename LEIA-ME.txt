@@ -1,0 +1,69 @@
+PRECIFICA QA — MOTOR v9.2 (LIMPEZA SEMANTICA DE REVISOES)
+==========================================================
+
+ESTE PACOTE ALTERA SOMENTE backend/app/main.py.
+Inclui scripts opcionais de testes e de amostragem. Nao altera a interface Next.js,
+configuracao do Supabase, banco, importacao, limite de 500 mil linhas, CORS,
+nem a exportacao de grande volume ja entregue anteriormente.
+
+O QUE MUDA
+- CATEGORIA / FAMILIA ANTES DE SCORE: "Compressor de ar" x "Pillow top" vira
+  DIFERENTE, ainda que o score textual seja 36%.
+- MAIS FAMILIAS DETECTADAS: compressor de ar, camera, cama pet, bebedouro, torneira,
+  fogao, furadeira, roupas, rack, forno, freezer, colchao, etc.
+- MARCAS CONFLITANTES: quando duas marcas inequivocas e diferentes aparecem na
+  mesma familia (ex.: tenis Fila x Olympikus), sugere DIFERENTE; se EAN igual,
+  permanece REVISAR para checagem de cadastro.
+- REVISAR RESERVADO A DUVIDA PLAUSIVEL: camas pet com cores distintas, mesmo modelo
+  com tensoes divergentes, anuncios de kit/composicao ou conflito entre evidencias.
+- MATCH EXIGE EVIDENCIA: mesma familia, termos distintivos compartilhados, score
+  alto, e ausencia de conflitos tecnicos. Score sozinho nao e identidade.
+- CRUZAMENTO 1:1: nao reserva como MATCH candidatos incompatíveis apenas porque
+  a similaridade passou de 50%; apenas candidatos aprovados pelas novas regras
+  participam dos vinculos automaticos.
+- MENSAGENS EXPLICATIVAS: motivos mostram familia, EAN e terminos em comum.
+
+CONFIGURACAO (no inicio de backend/app/main.py)
+ MATCH_MIN_MESMA_FAMILIA = 78
+ MATCH_MIN_TEXTO_SEM_CATEGORIA = 94
+ REVISAR_MIN_TEXTO_SEM_CATEGORIA = 55
+ Essas referencias so valem DEPOIS das verificacoes semanticas, nunca sozinhas.
+
+COMO INSTALAR NO WINDOWS
+1) Faca copia dos resultados existentes; os resultados no navegador NAO serao
+   recalculados automaticamente apos instalar.
+2) No terminal do Python/FastAPI, pressione CTRL+C.
+3) No PowerShell, execute:
+
+   cd C:\Users\Lopes\precifica-qa
+   Copy-Item .\backend\app\main.py .\backend\app\main.py.bak -Force
+   Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\precifica_qa_v9_2_inteligencia_semantica.zip" -DestinationPath . -Force
+
+4) Inicie somente uma instancia do Python:
+
+   .\backend\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port 8000
+
+5) Teste http://192.168.100.22:8000/health (versao FastAPI 9.2).
+6) Volte ao navegador e refaca a comparacao para aplicar os novos status.
+   O Next.js nao precisa ser reiniciado e os arquivos XLSX ja gerados nao mudam.
+
+TESTES OPCIONAIS
+   .\backend\.venv\Scripts\python.exe .\testar_qa_v92.py
+   .\backend\.venv\Scripts\python.exe .\analisar_revisoes.py "arquivo_REVISAR.tsv"
+
+RESULTADO DA SIMULACAO FORNECIDA PELO USUARIO
+- Arquivo de 60.852 linhas, TODAS originalmente REVISAR.
+- Analise SOMENTE das colunas descricao A, descricao B e status (sem EAN):
+  60.116 DIFERENTE, 727 REVISAR e 9 MATCH_SUGERIDO.
+- Nao sao novos resultados definitivos: a planilha enviada nao continha EAN,
+  e a reexecucao com as colunas originais pode gerar contagens diferentes.
+- Essa simulacao NAO valida acuracia: somente confirmacao humana de uma amostra
+  representativa (inclusive falsos positivos/negativos) faz isso.
+
+LIMITACOES IMPORTANTES
+- Nenhum resultado significa exclusao automatica, nem confirma ausencia de
+  correspondencia em outro anuncio ou linha.
+- No modo linha a linha, o sistema compara A[n] SOMENTE com B[n].
+- Taxonomia baseada em regras de nomes; titulos incompletos, abreviacoes, kits e
+  produtos parecidos podem exigir verificacao humana.
+- CUIDADO com dados sigilosos e com exposicao de APIs administrativas na rede.

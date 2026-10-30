@@ -1,0 +1,60 @@
+PRECIFICA QA - v10.1.0.1 (2026-10-23)
+===================================
+
+O QUE MUDA
+- Corrigida a interpretacao de medidas de pneus: 215-60R17 / 215/60R17 e similares.
+- Nao confunde indice de pneu 235/60R16 com 235/45ZR18.
+- Corrigida leitura de codigos comerciais separados por espaco/barra/hifen:
+  K621H / K 621H, 2115UBX-1F / 2115UBX/1F.
+- Corrigida extracao da marca Philco em titulos com PAC12FC (FC nao e marca).
+- Corrigida a leitura de voltagem colada ao codigo de ar-condicionado.
+- Corrigida ordem de medidas comerciais equivalentes: 60x138x188 e 138x188x60;
+  60x65 e 65x60 (para categorias em que orientacao nao altera o produto).
+- Reconhece titulos com letras pontuadas como D.E.U.S.E.S.
+- Bloqueia match quando capacidade BTU/h ou dimensao de pneu diferem.
+- Mantem DIFERENTE em EDP x EDT, iPhone normal x Plus e voltagens explicitas diferentes.
+- Conserva REVISAR quando modelo, cor ou variante comercial ainda sao incertos.
+- Corrigida categoria "beliche" para nao confundir acessorio citado no texto
+  com o produto principal.
+- Preservadas todas as rotas e o contrato JSON usados pelo Next.js:
+  /preview, /compare, /export e /health, alem de CORS para 192.168.100.22:3000.
+- Preservada exportacao de grandes volumes por fluxo (sem voltar ao limite 150 MB).
+
+COMO INSTALAR
+1) Salve a planilha de resultados atual. Pare apenas o processo Python com Ctrl+C.
+2) Abra o PowerShell:
+   cd C:\Users\Lopes\precifica-qa
+   Copy-Item .\backend\app\main.py .\backend\app\main.py.bak-v10 -Force
+   Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\precifica_qa_v10_1_0_1.zip" -DestinationPath . -Force
+3) Teste sem usar o banco ou excluir dados:
+   .\backend\.venv\Scripts\python.exe .\testar_v10.py
+   .\backend\.venv\Scripts\python.exe .\testar_v10_1_0_1.py
+4) Reinicie o backend:
+   .\backend\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port 8000
+5) Abra http://192.168.100.22:8000/health e confirme versao_motor=10.1.0.1.
+6) Rode NOVA comparacao; resultados ja exportados/salvos nao sao reclassificados.
+
+VALIDACAO REALIZADA
+- 34 cenarios herdados da v10 e 28 cenarios novos (17 eram erros com score 100%).
+- API de comparacao linha a linha e modo 1:1 testados.
+- Exportacao Excel e CORS da rede testados.
+- Reprocessamento TEXTUAL das 217.305 linhas DIFERENTE do ultimo arquivo:
+  216.825 seguem DIFERENTE; 447 para REVISAR; 33 para MATCH_SUGERIDO.
+  Os EANs/SKUs nao constavam no arquivo recebido; os resultados finais podem
+  diferir quando esses campos sao fornecidos na planilha completa.
+- A porcentagem de similaridade continua meramente TEXTUAL. Uma classificacao
+  DIFERENTE com 30-100% ainda e possivel e correta quando existe um conflito
+  explicito (pneu com aro diferente, EDT/EDP, 127/220V, etc.).
+- Nao ha garantia de 99% nem de zero erro sem validacao humana de dados rotulados.
+
+ARQUIVOS DO PACOTE
+- backend/app/main.py: unico arquivo de producao substituido.
+- testar_v10.py / testar_v10_1_0_1.py: testes executaveis.
+- casos_regressao_v10_1_0_1.json: evidencias dos testes.
+- auditar_correcao_v10_1_0_1.py: simulador local (nao altera banco).
+- mudancas_diferentes_v10_1_0_1.csv: somente 480 mudancas sugeridas, com linhas e motivos.
+
+SEGURANCA
+Nenhuma exclusao automatica. Continue revisando casos incertos e variantes
+antes de executar decisoes comerciais. O arquivo CSV e a auditoria sao
+informativos e nao atualizam a persistencia do Supabase.

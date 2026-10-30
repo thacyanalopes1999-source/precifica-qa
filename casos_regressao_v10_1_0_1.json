@@ -1,0 +1,170 @@
+[
+  {
+    "a": "Pneu Michelin Aro 17 Primacy 4 215-60R17 96H TL - Dimensões (A x L x P):0.69 x 0.21 x 0.69",
+    "b": "Pneu Michelin Primacy 4 215/60r17 96 H Tl Aro 17",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Pneu Michelin Aro 17 Primacy 4 215-60R17 96H TL - Dimensões (A x L x P):0.69 x 0.21 x 0.69",
+    "b": "Pneu Michelin Aro 17 Primacy 4 215/60R17 96H TL",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Pneu Kelly by Goodyear Aro 14 Edge Touring 2 175-65R14 86H XL - Dimensões (A x L x P):0.636 x 0.17 x 0.636",
+    "b": "Pneu Kelly by Goodyear Aro 14 Edge Touring 2 175/65R14 86H XL",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Pneu Pirelli Aro 17 Powergy 215-55R17 94V - Dimensões (A x L x P):0.776 x 0.21 x 0.776",
+    "b": "Pneu Pirelli Aro 17 Powergy 215/55R17 94V",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Pneu Pirelli Aro 17 Powergy 215-55R17 94V - Dimensões (A x L x P):0.776 x 0.21 x 0.776",
+    "b": "Pneu Pirelli Aro 17 Powergy 215/55r17 94v",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Ar Condicionado Split 12000 BTUS PAC12FC Hi Wall Inverter Frio Philco 220V",
+    "b": "Ar Condicionado Split Inverter Hi Wall Philco 12000 BTUs Frio PAC12FC - 220V",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Ar Condicionado Split HQ Hi Wall Inverter 12.000 BTU/h Quente e Frio Monofásico Branco VIHT12KCH3S2S23 - 220V - Dimensões (A x L x P):0.741 x 0.535 x 0.208",
+    "b": "Ar Condicionado Split HQ Hi Wall Inverter 12.000 BTU/h Quente e Frio Monofásico Branco VIHT12KCH3S2S23-220V",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Ar Condicionado Split HQ Hi Wall Inverter 30.000 BTU/h Frio Monofásico Branco VIHT30KCO3S2S13 - 220V - Dimensões (A x L x P):1.097 x 1.11 x 0.43",
+    "b": "Ar Condicionado Split HQ Hi Wall Inverter 30.000 BTU/h Frio Monofásico Branco VIHT30KCO3S2S13-220V",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Ar Condicionado Split HQ Hi Wall Inverter 9.000 BTU/h Quente e Frio Monofásico Branco VIHT9KCH3S2S23 - 220V - Dimensões (A x L x P):0.738 x 0.765 x 0.318",
+    "b": "Ar Condicionado Split HQ Hi Wall Inverter 9.000 BTU/h Quente e Frio Monofásico Branco VIHT9KCH3S2S23-220V",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Pneu Pirelli Aro 17 Cinturato P7 New (K1) 215-50R17 91V",
+    "b": "Pneu Pirelli Aro 17 Cinturato P7 New (K1) 215/50R17 91V",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Cama Box Baú Casal Suede Bipartido   Colchão Ortobom ISO Dupla Face 60x138x188 - Dimensões (A x L x P):0.48 x 1.38 x 1.88",
+    "b": "Cama Box Baú Casal Suede Bipartido + Colchão Ortobom Iso Dupla Face 138x188x60",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Cama Box Baú Casal Suede Bipartido   Colchão Ortobom ISO Dupla Face 60x138x188 - Dimensões (A x L x P):0.48 x 1.38 x 1.88",
+    "b": "Cama Box Baú Casal Suede Bipartido   Colchão Ortobom Iso Dupla Face 138x188x60",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Sistema de Microfone Kadosh K621H Sem Fio - Dimensões (A x L x P):0.08 x 0.37 x 0.38",
+    "b": "Sistema de Microfone Kadosh K 621H Sem Fio",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "D.e.u.s.e.s. - Dimensões (A x L x P):0.26 x 0.17 x 0.01",
+    "b": "D.E.U.S.E.S..",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "D.e.u.s.e.s. - Dimensões (A x L x P):0.26 x 0.17 x 0.01",
+    "b": "D.E.U.S.E.S.",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Tapete Higiênico Mega Seco 30 Unidades 60x65cm - Dimensões (A x L x P):0.4 x 0.16",
+    "b": "Tapete Higiênico Mega Seco 65x60cm 30 Unidades",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Relógio Technos Masculino Golf Grafite - 2115ubx-1f - Dimensões (A x L x P):0.13 x 0.16 x 0.33",
+    "b": "Relógio Technos Masculino Golf Grafite - 2115ubx/1f",
+    "score": 100.0,
+    "expected": "MATCH_SUGERIDO"
+  },
+  {
+    "a": "Perfume Boucheron Pour Femme Eau de Parfum 100ml",
+    "b": "Perfume Boucheron Pour Femme Eau de Toilette 100ml",
+    "score": null,
+    "expected": "DIFERENTE"
+  },
+  {
+    "a": "Pneu Sunwide 235/60 R16 Rs-One 100H",
+    "b": "Pneu Aro 18 235/45zr 18 98w Xl Rs-one Sunwide",
+    "score": null,
+    "expected": "DIFERENTE"
+  },
+  {
+    "a": "Ar-condicionado Split Samsung Inverter WindFree AI Pro 9.000 BTUs Frio",
+    "b": "Ar-condicionado Split Samsung Inverter WindFree AI Pro 12.000 BTUs Frio",
+    "score": null,
+    "expected": "DIFERENTE"
+  },
+  {
+    "a": "Pneu Pirelli Aro 17 Cinturato P7 New (K1) 215-50R17 91V",
+    "b": "Pneu Pirelli Aro 17 Cinturato P7 New Ks 215/50r17 91v",
+    "score": null,
+    "expected": "DIFERENTE"
+  },
+  {
+    "a": "Furadeira Philco PFU04 127V 850W",
+    "b": "Philco Furadeira PFU04 220V 850W",
+    "score": null,
+    "expected": "DIFERENTE"
+  },
+  {
+    "a": "iPhone 16 Plus 256GB Preto",
+    "b": "Apple iPhone 16 256GB Preto",
+    "score": null,
+    "expected": "DIFERENTE"
+  },
+  {
+    "a": "Porta de correr Branco Prime 210x90 kit aluminio",
+    "b": "Porta De Correr Branco Prime 210x80 Com Kit Aluminio",
+    "score": null,
+    "expected": "DIFERENTE"
+  },
+  {
+    "a": "Compressor De Ar Direto Mega Jet CMJ-210 Ferrari",
+    "b": "Pillow Top Espuma Hiper Soft Hipoalergênico BF Colchões",
+    "score": null,
+    "expected": "DIFERENTE"
+  },
+  {
+    "a": "Bicicleta Elétrica Dobrável 400W 48V Painel Digital 30Kmh Farol de Led - Cinza",
+    "b": "Bicicleta Elétrica Dobrável 400w 30km/h Farol De Led",
+    "score": null,
+    "expected": "REVISAR"
+  },
+  {
+    "a": "Beliche - Vira 2 Camas - Para Colchão 78/88 X 188Cm Porto Multimóveis VCR4138 Branco",
+    "b": "Beliche Madeira Maciça - vira 2 Camas - para Colchão 78/88 x 188cm Porto Multimóveis CR4138 Branco",
+    "score": null,
+    "expected": "REVISAR"
+  },
+  {
+    "a": "Pneu 175/65R14C Roadking Radial 109 90/88T 6 Lonas",
+    "b": "Pneu Aro 14 Roadking 175/65r14 90/88t Radial 109",
+    "score": null,
+    "expected": "REVISAR"
+  }
+]

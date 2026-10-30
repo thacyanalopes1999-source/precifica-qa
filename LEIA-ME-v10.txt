@@ -1,0 +1,68 @@
+PRECIFICA QA v10.0 — MOTOR DE IDENTIDADE COMERCIAL
+===============================================
+
+ATUALIZA SOMENTE O BACKEND PYTHON
+Arquivo de substituicao: backend/app/main.py
+Scripts opcionais para diagnostico: testar_v10.py, auditar_amostra_v10.py
+Nao modifica frontend Next.js, tabelas Supabase, autenticacao nem banco.
+
+MUDANCAS
+- Identidade comercial antes de percentual: familia principal, marca, modelo,
+  formula, variacoes comerciais, tamanho de produto, tensao, cor, RAM e armazenamento.
+- Descricoes resumidas podem virar MATCH quando ha ancoras comerciais reais;
+  15% e apenas referencia para descoberta, nunca prova de identidade.
+- Incompatibilidade clara de categorias, marcas e variantes explicitas gera DIFERENTE.
+- Evidencias contraditorias, variantes omitidas e conflitos com mesmo EAN geram REVISAR.
+- EAN/GTIN (8, 12, 13 ou 14 digitos) validado pelo digito verificador.
+- CORS preservado para localhost e http://192.168.100.22:3000.
+- API preservada: /health, /preview, /compare e /export.
+- Resposta de comparacao preservada: linha_a, linha_b, descricao_a, descricao_b,
+  score, classificacao, faixa, motivo e revisao. Linhas Excel sao 1-based com
+  cabecalho, portanto primeira linha de dados = 2.
+- Exportacao continua processando resultados grandes sem limite anterior de 150 MB
+  (JSON de ate 1 GB; dependente de disco/RAM disponiveis).
+- Funcionalidade de exclusao automatica NAO foi criada.
+
+INSTALACAO NO WINDOWS
+1) Salve/exporte a comparacao atual; se nao foi salva, recarregar a pagina
+   apaga os resultados atuais do navegador.
+2) No terminal do Python, CTRL+C (nao pare o Next.js).
+3) No PowerShell execute:
+
+   cd C:\Users\Lopes\precifica-qa
+   $data = Get-Date -Format 'yyyyMMdd-HHmmss'
+   Copy-Item .\backend\app\main.py ".\backend\app\main.py.bak-$data"
+   Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\precifica_qa_v10.zip" -DestinationPath . -Force
+   .\backend\.venv\Scripts\python.exe .\testar_v10.py
+   .\backend\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port 8000
+
+4) Acesse http://192.168.100.22:8000/health
+   Deve mostrar "versao_motor":"10.0".
+5) Abra http://192.168.100.22:3000/importar e execute NOVA comparacao.
+   Resultados antigos nao se recalculam sozinhos.
+6) Exporte Excel e confira QA_LINHA_A, QA_LINHA_B, QA_STATUS e QA_MOTIVO.
+
+TESTES REALIZADOS
+- 34 casos regressivos: 34/34 tiveram resultado esperado nos cenarios escritos.
+- Endpoints HTTP: /compare linha_a_linha, cruzamento_1a1, /export XLSX,
+  /health, CORS e validacao EAN de exemplo.
+- Auditoria exploratoria em 12.000 pares amostrados dos tres arquivos da
+  validacao anterior (4.000 de cada classe; SEM EAN/SKU):
+  * REVISAR anterior: 1.824 MATCH, 1.716 REVISAR, 460 DIFERENTE;
+  * MATCH anterior: 3.477 MATCH, 460 REVISAR, 63 DIFERENTE;
+  * DIFERENTE anterior: 3.998 DIFERENTE, 2 REVISAR.
+  Essas alteracoes NAO constituem acuracia comprovada. Exigem avaliacao
+  humana dos casos trocados e revisao de falsos positivos e falsos negativos.
+
+LIMITACOES IMPORTANTES
+- O algoritmo e baseado em regras/titulos comerciais, nao consegue garantir
+  99% de precisao sem um conjunto de referencia rotulado manualmente.
+- Sem foto do produto, GTIN/SKU confirmado e descricao completa, muitos anuncios
+  podem ser ambiguos. Revise os resultados antes de acoes de negocio.
+- Compare linha a linha apenas quando A[i] e B[i] foram previamente alinhados.
+- Cruzamento 1:1 usa indice de candidatos limitado e nao garante achar a melhor
+  correspondencia global em bases muito grandes.
+- 500 mil linhas por entrada pode exigir RAM e processamento em fila.
+
+Para voltar para a versao anterior: pare Python, copie o .bak datado para
+backend/app/main.py e reinicie o uvicorn. Nao altere o frontend.
