@@ -135,8 +135,8 @@ export default function BuscarUrlsPage() {
       let table: string[][];
       let numericBarcodeLines = new Set<number>();
       if (/\.xlsx$|\.xlsm$/i.test(file.name)) {
-        const { default: readXlsxFile } = await import("read-excel-file/browser");
-        const raw = await readXlsxFile(file);
+        const { readSheet } = await import("read-excel-file/browser");
+        const raw = await readSheet(file);
         table = raw.map((line) => line.map((cell) => cell == null ? "" : String(cell)));
         const heads = (table[0] || []).map(cleanName);
         const headerIndex = heads.findIndex((x) => /^(?:codigo de barras|codigo barras|cod barras|ean|ean13|gtin|codigo ean)$/.test(x));
