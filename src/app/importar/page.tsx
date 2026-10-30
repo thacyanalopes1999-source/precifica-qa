@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { fetchQA } from "@/lib/supabase/browser";
 import { FileSpreadsheet, UploadCloud, AlertTriangle, Download, CheckCircle2, RotateCcw } from "lucide-react";
 
 type Preview = { nome: string; total: number; colunas: string[]; amostra: Record<string, string>[] };
@@ -114,7 +115,7 @@ export default function ImportarPage() {
     let currentId: string | null = null;
     try {
       const post = async (payload: Record<string, unknown>) => {
-        const response = await fetch("/api/qa/salvar", {
+        const response = await fetchQA("/api/qa/salvar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -136,7 +137,7 @@ export default function ImportarPage() {
       // e NÃO entra nos indicadores de comparações concluídas.
       if (currentId) {
         try {
-          await fetch("/api/qa/salvar", {
+          await fetchQA("/api/qa/salvar", {
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ acao: "cancelar", id: currentId }),
           });

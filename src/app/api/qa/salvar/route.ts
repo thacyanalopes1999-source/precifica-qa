@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
+import { requireQAAdmin, checkMutationOrigin } from "@/lib/qa/auth";
 
 
 
@@ -20,13 +21,10 @@ const fail = (message: string, status = 400) =>
   NextResponse.json({ error: message }, { status });
 
 export async function POST(req: NextRequest) {
-  // Sem autenticação de usuários, esta integração só é habilitada em desenvolvimento LOCAL.
-  // Nunca publique este endpoint com uma chave administrativa sem adicionar autenticação e autorização.
-  if (process.env.NODE_ENV !== "development") return fail("Rota indisponível fora do desenvolvimento local.", 403);
-  const host = req.nextUrl.hostname;
-  if (host !== "localhost" && host !== "127.0.0.1") return fail("Acesso disponível apenas via localhost.", 403);
-  const origin = req.headers.get("origin");
-  if (!origin || origin !== req.nextUrl.origin) return fail("Origem não autorizada.", 403);
+  const denied = await requireQAAdmin(req);
+  if (denied) return denied;
+  const badOrigin = checkMutationOrigin(req);
+  if (badOrigin) return badOrigin;
   const ct = req.headers.get("content-type") || "";
   if (!ct.includes("application/json")) return fail("Envie application/json.", 415);
 

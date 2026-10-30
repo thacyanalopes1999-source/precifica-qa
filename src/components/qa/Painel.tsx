@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { fetchQA } from "@/lib/supabase/browser";
 import { AlertTriangle, ArrowRight, CheckCircle2, ClipboardCheck, Clock3, FileSpreadsheet, RefreshCcw, Search, ShieldCheck } from "lucide-react";
 
 type Job = { id:string; nome:string; status:string; arquivo_a:string; arquivo_b:string; criado_em:string; concluido_em:string|null };
@@ -25,7 +26,7 @@ export default function Painel({ tipo, id }: { tipo:"dashboard"|"comparacoes"|"r
       if (id) query.set("id",id);
       if (tipo === "revisao") query.set("filtro",filter);
       if (tipo === "exclusoes") query.set("filtro","exclusao");
-      const r = await fetch(`/api/qa/consultar?${query.toString()}`,{cache:"no-store"});
+      const r = await fetchQA(`/api/qa/consultar?${query.toString()}`);
       const x = await r.json() as ResponseData;
       if (!r.ok) throw new Error(x.error || "Erro ao consultar Supabase");
       setData(x);
@@ -36,7 +37,7 @@ export default function Painel({ tipo, id }: { tipo:"dashboard"|"comparacoes"|"r
   async function revisar(rowId:string, decisao:"aprovado"|"rejeitado"|"pendente") {
     setWorking(rowId);setError("");
     try {
-      const r = await fetch("/api/qa/revisar",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:rowId,decisao})});
+      const r = await fetchQA("/api/qa/revisar",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:rowId,decisao})});
       const x = await r.json(); if(!r.ok) throw new Error(x.error || "Falha ao revisar");
       await carregar();
     } catch(e) { setError(e instanceof Error ? e.message : "Falha ao salvar"); }
@@ -47,7 +48,7 @@ export default function Painel({ tipo, id }: { tipo:"dashboard"|"comparacoes"|"r
   const rows = (data?.items || []) as Item[];
   return <div className="space-y-6 pb-12 text-slate-900">
     <div className="flex flex-wrap items-center justify-between gap-3"><div><p className="text-sm font-medium text-blue-600">PRECIFICA QA</p><h1 className="text-3xl font-bold">{names[tipo]}</h1><p className="mt-1 text-sm text-slate-500">Dados salvos no Supabase · revisão humana obrigatória</p></div><div className="flex gap-2"><button className={button} onClick={()=>void carregar()}><RefreshCcw size={16} className="mr-1 inline"/>Atualizar</button><Link href="/importar" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white">Nova comparação</Link></div></div>
-    {error && <div role="alert" className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">{error}</div>}
+    {error && <div role="alert" className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">{error} <Link href="/login" className="ml-2 font-semibold underline">Entrar</Link></div>}
     {tipo === "dashboard" && <><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">{[{n:"Comparações",v:data?.comparacoes,i:FileSpreadsheet},{n:"Registros salvos",v:data?.produtos,i:Search},{n:"Pendentes",v:data?.pendentes,i:Clock3},{n:"Aprovados",v:data?.aprovados,i:CheckCircle2},{n:"Rejeitados",v:data?.rejeitados,i:ClipboardCheck}].map(k=><div className={shell} key={k.n}><k.i className="mb-3 text-blue-600" size={22}/><div className="text-3xl font-bold">{loading ? "…" : fmt(k.v ?? 0)}</div><div className="mt-1 text-sm text-slate-500">{k.n}</div></div>)}</div><div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">Os totais contam registros persistidos. Comparações ainda não salvas não entram nos indicadores.</div></>}
     {tipo === "configuracoes" && <div className={shell}><ShieldCheck className="text-blue-600"/><h2 className="mt-2 font-bold">Regras vigentes</h2><p className="mt-2 text-sm text-slate-600">50–100%: MATCH SUGERIDO · 20–49,99%: REVISAR · abaixo de 20%: DIFERENTE. A seleção Linha a linha / Cruzamento 1:1 permanece na página de importação. As regras são exibidas aqui e não são editáveis para evitar alterações sem persistência.</p><p className="mt-3 text-sm text-slate-600">Por segurança, os endpoints administrativos estão habilitados apenas em desenvolvimento local. Antes de publicar, configure autenticação, autorização e auditoria.</p></div>}
     {["dashboard","comparacoes","historico"].includes(tipo) && <div className={shell}><h2 className="mb-4 text-lg font-bold">{tipo === "dashboard" ? "Últimas comparações" : tipo === "historico" ? "Histórico de execuções" : "Comparações registradas"}</h2>{loading ? <p className="text-slate-500">Consultando dados…</p> : jobs.length === 0 ? <p className="text-slate-500">Nenhuma comparação salva nesta página. Execute e salve uma análise em Importar arquivos.</p> : <div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead><tr className="border-b text-slate-500"><th className="py-3 pr-3">Comparação</th><th className="py-3 pr-3">Criada</th><th className="py-3 pr-3">Status</th><th className="py-3">Ação</th></tr></thead><tbody>{jobs.map(x=><tr key={x.id} className="border-b border-slate-100"><td className="py-3 pr-3"><strong>{x.nome}</strong><div className="text-xs text-slate-500">{x.arquivo_a} × {x.arquivo_b}</div></td><td className="py-3 pr-3">{dt(x.criado_em)}</td><td className="py-3 pr-3">{x.status}</td><td className="py-3"><Link className="font-semibold text-blue-600" href={`/comparacoes/${x.id}`}>Visualizar <ArrowRight size={14} className="inline"/></Link></td></tr>)}</tbody></table></div>}</div>}
