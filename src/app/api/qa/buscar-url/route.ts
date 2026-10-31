@@ -35,6 +35,8 @@ function safeProductUrl(raw: string, domain: string): string | null {
     const host = url.hostname.toLowerCase();
     if (url.protocol !== "https:" && url.protocol !== "http:") return null;
     if (host !== domain && !host.endsWith(`.${domain}`)) return null;
+    // Excluir páginas de lista/pesquisa: precisamos sugerir links de anúncios ou fichas de produto.
+    if (host.startsWith("lista.") || host.startsWith("busca.")) return null;
     if (url.pathname.length < 4) return null;
     // Resultados de busca/categorias não são URLs individuais de produtos.
     if (/^\/(?:busca|search|search-results|departamento|categoria|categories|s)(?:\/|$)/i.test(url.pathname)) return null;
